@@ -37,7 +37,8 @@ def nb_page(nb,url_cat):
 
 
 #lien vers les livres d'une catégorie
-def link_book(nb_next,url_cat):   
+def link_book(nb_next,url_cat):
+    lien_livre = []   
     for i in range (nb_next) : 
         url = url_cat+str(i)+".html"
         reponse = requests.get(url)  
@@ -51,14 +52,27 @@ def link_book(nb_next,url_cat):
                 lien_livre.append(link_ok)
     return lien_livre
     
+#liste des lien de catégorie
+def categorie ():
+    liste_cat = []
+    url = "https://books.toscrape.com/index.html"
+    reponse = requests.get(url)  
+    if reponse.ok:            
+        soup = BeautifulSoup(reponse.text, "html.parser") 
+        categorie = soup.find("ul",class_ = "nav nav-list").find_all("a")
+        for cat in categorie :
+            link = cat.text.strip()
+            liste_cat.append(link)
+    return(liste_cat)
 
 
 if __name__ == "__main__" :
     #list url
-    lien_livre = []
+    liste_categorie = categorie()
+    print (liste_categorie)
     url_categorie = "https://books.toscrape.com/catalogue/category/books/young-adult_21/page-"
     next=nb_page(20,url_categorie)+1
-    link_book(next,url_categorie)
+    lien_des_livres = link_book(next,url_categorie)
 
     # ouverture en écriture du fichier
     with open('extrait_informations.csv', 'w', newline='',encoding="utf-8") as fichier:
@@ -66,7 +80,7 @@ if __name__ == "__main__" :
         #ecriture des colonnes
         ecrire.writerow(['product_page_url','universal_ product_code (upc)','title','price_including_tax','price_excluding_tax','number_available','product_description','category','review_rating','image_url'])
         
-        for i in lien_livre : 
+        for i in lien_des_livres : 
             url = "https://books.toscrape.com/catalogue/"+str(i)
             scrap_one_book(url,ecrire)
 
