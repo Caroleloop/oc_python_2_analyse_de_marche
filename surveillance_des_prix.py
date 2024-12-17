@@ -2,8 +2,6 @@ import requests
 from bs4 import BeautifulSoup
 import csv
 
- 
-
 
 
 #recuperation des informations du livre
@@ -24,6 +22,18 @@ def scrap_one_book(url, doc):
         print (product_page_url,universal_product_code,title,price_including_tax,price_excluding_tax,number_available,product_description,category,review_rating,image_url)
     #ecrire les informations dans le ficheri csv
     doc.writerow([product_page_url,universal_product_code,title,price_including_tax,price_excluding_tax,number_available,product_description,category,review_rating,image_url])
+
+
+#nombre de pages de la catégorie choisi
+def nb_page(nb,url_cat):
+    next = 0
+    for i in range (1,nb):
+        url_categorie = url_cat
+        url = url_categorie+str(i)+".html"
+        reponse = requests.get(url)
+        if reponse.ok:
+            next += 1
+    return next
 
 
 #lien vers les livres d'une catégorie
@@ -47,9 +57,8 @@ if __name__ == "__main__" :
     #list url
     lien_livre = []
     url_categorie = "https://books.toscrape.com/catalogue/category/books/young-adult_21/page-"
-    link_book(4,url_categorie)
-    print(lien_livre)
-
+    next=nb_page(20,url_categorie)+1
+    link_book(next,url_categorie)
 
     # ouverture en écriture du fichier
     with open('extrait_informations.csv', 'w', newline='',encoding="utf-8") as fichier:
@@ -60,4 +69,5 @@ if __name__ == "__main__" :
         for i in lien_livre : 
             url = "https://books.toscrape.com/catalogue/"+str(i)
             scrap_one_book(url,ecrire)
+
 
