@@ -4,84 +4,70 @@ import csv
 
 
 
-#recuperation des informations du livre
-def scrap_one_book(url, doc):
-    reponse = requests.get(url)
-    if reponse.ok:
-        soup = BeautifulSoup(reponse.text, "html.parser")
-        product_page_url = url
-        universal_product_code = soup.find('table', class_ ='table table-striped' ).find(string="UPC").find_parent('tr').find('td').text.strip()
-        title = soup.find('li',class_ ='active' ).text
-        price_including_tax = soup.find('table', class_ ='table table-striped' ).find(string="Price (incl. tax)").find_parent('tr').find('td').text.strip()[1:]
-        price_excluding_tax =soup.find('table', class_ ='table table-striped' ).find(string="Price (excl. tax)").find_parent('tr').find('td').text.strip()[1:]
-        number_available =  soup.find('table', class_ ='table table-striped' ).find(string="Availability").find_parent('tr').find('td').text.strip()
-        product_description = soup.find('div', id ='product_description').find_next('p').text.strip()
-        category = soup.find('ul', class_ = 'breadcrumb' ).find('li', class_='active').find_previous('a').text.strip()
-        review_rating = soup.find('table', class_ ='table table-striped' ).find(string="Number of reviews").find_parent('tr').find('td').text.strip()
-        image_url = soup.find('img').get('src')
-        print (product_page_url,universal_product_code,title,price_including_tax,price_excluding_tax,number_available,product_description,category,review_rating,image_url)
-    #ecrire les informations dans le ficheri csv
-    doc.writerow([product_page_url,universal_product_code,title,price_including_tax,price_excluding_tax,number_available,product_description,category,review_rating,image_url])
 
-
-#nombre de pages de la catégorie choisi
-def nb_page(nb,url_cat):
-    next = 0
-    for i in range (1,nb):
-        url_categorie = url_cat
-        url = url_categorie+str(i)+".html"
-        reponse = requests.get(url)
-        if reponse.ok:
-            next += 1
-    return next
-
-
-#lien vers les livres d'une catégorie
-def link_book(nb_next,url_cat):
-    lien_livre = []   
-    for i in range (nb_next) : 
-        url = url_cat+str(i)+".html"
-        reponse = requests.get(url)  
-        if reponse.ok:            
-            soup = BeautifulSoup(reponse.text, "html.parser") 
-            # récupérer url d'une page d'une catégorie
-            livres = soup.find_all("h3")
-            for livre in livres :
-                link = livre.find("a")["href"]
-                link_ok = BeautifulSoup(link, "html.parser").text.strip('../../../')
-                lien_livre.append(link_ok)
-    return lien_livre
     
-#liste des lien de catégorie
-def categorie ():
+#liste des liens des catégories
+def lien_categorie ():
     liste_cat = []
+    liste_cat_ok = []
     url = "https://books.toscrape.com/index.html"
     reponse = requests.get(url)  
     if reponse.ok:            
         soup = BeautifulSoup(reponse.text, "html.parser") 
-        categorie = soup.find("ul",class_ = "nav nav-list").find_all("a")
+        categorie = soup.find("div",class_ = "side_categories").find_all("li")        
         for cat in categorie :
-            link = cat.text.strip()
+            link = cat.find("a")["href"]
             liste_cat.append(link)
-    return(liste_cat)
+        for i in liste_cat :
+            i = i.replace("index.html","page-")
+            liste_cat_ok.append(i)
+    del liste_cat_ok[0:1]
+    return(liste_cat_ok)
+
+#liste des catégories
+def nom_categorie (liste):
+    nom_cat =[]
+    for i in liste :
+        i = i.replace("catalogue/category/books/","")
+        i = i.split("_")[0]
+        nom_cat.append (str(i))
+    return nom_cat
+
+
 
 
 if __name__ == "__main__" :
-    #list url
-    liste_categorie = categorie()
-    print (liste_categorie)
-    url_categorie = "https://books.toscrape.com/catalogue/category/books/young-adult_21/page-"
-    next=nb_page(20,url_categorie)+1
-    lien_des_livres = link_book(next,url_categorie)
+    # lien_des_livres = link_book(1,"https://books.toscrape.com/catalogue/category/books/travel_2/page-")
+    # print(lien_des_livres)
+    liste_categorie = lien_categorie()
+    list_nb_page=[]
+    # nom= []
+    nom = nom_categorie (liste_categorie)
+    # print(nom)
+    # for n in nom : 
+    #     print(n)
+    b=0
+    for i in liste_categorie :
+            # print(i)
+            # nom = nom_categorie (liste_categorie)
+            n= nom[b]
+            # print (n)
+            url_categorie = "https://books.toscrape.com/"+i
+            # print(url_categorie)
+            # for j in url_categorie:
+            #     print(j)
+            next=nb_page(url_categorie)
+            # print(next)
+            list_nb_page.append(next)
+            # print(list_nb_page)
+            for n in list_nb_page :
+                lien_des_livres = link_book(next,url_categorie)
+                # print(lien_des_livres)
+            # print('')
+            # print('')
+                ecrire(n)
+            b = b+1
+            break
+                    
 
-    # ouverture en écriture du fichier
-    with open('extrait_informations.csv', 'w', newline='',encoding="utf-8") as fichier:
-        ecrire = csv.writer(fichier)
-        #ecriture des colonnes
-        ecrire.writerow(['product_page_url','universal_ product_code (upc)','title','price_including_tax','price_excluding_tax','number_available','product_description','category','review_rating','image_url'])
-        
-        for i in lien_des_livres : 
-            url = "https://books.toscrape.com/catalogue/"+str(i)
-            scrap_one_book(url,ecrire)
-
-
+    
