@@ -13,10 +13,15 @@ def scrap_one_book(url):
         price_including_tax = soup.find('table', class_ ='table table-striped' ).find(string="Price (incl. tax)").find_parent('tr').find('td').text.strip()[1:]
         price_excluding_tax =soup.find('table', class_ ='table table-striped' ).find(string="Price (excl. tax)").find_parent('tr').find('td').text.strip()[1:]
         number_available =  soup.find('table', class_ ='table table-striped' ).find(string="Availability").find_parent('tr').find('td').text.strip()
-        product_description = ""# soup.find('div', id ='product_description').find_next('p').text.strip()
         category = soup.find('ul', class_ = 'breadcrumb' ).find('li', class_='active').find_previous('a').text.strip()
         review_rating = soup.find('table', class_ ='table table-striped' ).find(string="Number of reviews").find_parent('tr').find('td').text.strip()
         image_url = soup.find('img').get('src')
+        product_description = soup.find('div', id ='product_description')
+        if product_description != None:
+            product_description = soup.find('div', id ='product_description').find_next('p').text.strip()
+        else : 
+            pass
+
         # print (product_page_url,universal_product_code,title,price_including_tax,price_excluding_tax,number_available,product_description,category,review_rating,image_url)
     #ecrire les informations dans le ficheri csv
     # doc.writerow([product_page_url,universal_product_code,title,price_including_tax,price_excluding_tax,number_available,product_description,category,review_rating,image_url])
@@ -33,3 +38,7 @@ def scrap_one_book(url):
        "image_url": image_url
     }
     return book_info
+
+if __name__ == "__main__":
+    url = "https://books.toscrape.com/catalogue/set-me-free_988/index.html"
+    book = scrap_one_book(url)
