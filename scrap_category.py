@@ -13,7 +13,7 @@ def nb_page(url_cat):
         reponse = requests.get(url)
         if reponse.ok:
             next += 1
-        else :
+        else:
             break
         i += 1
     return next
@@ -23,9 +23,8 @@ def nb_page(url_cat):
 def category_books_link(url_cat):
     nb_next = nb_page(url_cat)
     liens_livres = []
-    url_categorie = url_cat.replace("index.html","page-")
-    for i in range (nb_next) : 
-        url = url_categorie+str(i+1)+".html"
+    if nb_next == 0:
+        url = url_cat
         reponse = requests.get(url)  
         if reponse.ok:            
             soup = BeautifulSoup(reponse.text, "html.parser") 
@@ -35,6 +34,19 @@ def category_books_link(url_cat):
                 link = livre.find("a")["href"]
                 link_ok = BeautifulSoup(link, "html.parser").text.strip('../../../')
                 liens_livres.append(link_ok)
+    else: 
+        url_categorie = url_cat.replace("index.html","page-")
+        for i in range (nb_next) : 
+            url = url_categorie+str(i+1)+".html"
+            reponse = requests.get(url)  
+            if reponse.ok:            
+                soup = BeautifulSoup(reponse.text, "html.parser") 
+                # récupérer url d'une page d'une catégorie
+                livres = soup.find_all("h3")
+                for livre in livres :
+                    link = livre.find("a")["href"]
+                    link_ok = BeautifulSoup(link, "html.parser").text.strip('../../../')
+                    liens_livres.append(link_ok)
     return liens_livres
 
  # # ouverture en écriture du fichier
@@ -45,7 +57,6 @@ def scrap_category(nom_category, url_categoy):
         book_url = "https://books.toscrape.com/catalogue/" + book_link
         book_dict = scrap_one_book(book_url)
         category_books_dicts.append(book_dict)
-
 
     with open('extrait_informations_'+str(nom_category)+'.csv', 'w', newline='',encoding="utf-8") as fichier:
         # Get the field names from the keys of the first dictionary
@@ -61,6 +72,9 @@ def scrap_category(nom_category, url_categoy):
         writer.writerows(category_books_dicts)
 
 if __name__ == "__main__":
-    nom = "Default"
-    url = "https://books.toscrape.com/catalogue/category/books/default_15/index.html"
-    scrap_category(nom, url)
+    nom = "Mystery"
+    url = "https://books.toscrape.com/catalogue/category/books/mystery_3/index.html"
+    scrap_category(nom,url)
+
+
+
