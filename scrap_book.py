@@ -19,12 +19,9 @@ def scrap_one_book(url):
         product_description = soup.find('div', id ='product_description')
         if product_description != None:
             product_description = soup.find('div', id ='product_description').find_next('p').text.strip()
-        else : 
+        else: 
             pass
 
-        # print (product_page_url,universal_product_code,title,price_including_tax,price_excluding_tax,number_available,product_description,category,review_rating,image_url)
-    #ecrire les informations dans le ficheri csv
-    # doc.writerow([product_page_url,universal_product_code,title,price_including_tax,price_excluding_tax,number_available,product_description,category,review_rating,image_url])
     book_info = {
        "product_page_url": product_page_url,
        "universal_product_code": universal_product_code,

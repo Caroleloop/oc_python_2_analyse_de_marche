@@ -21,8 +21,6 @@ def links_categories ():
     del links_categories[0:1]
     return links_categories
 
-
-
 #nom des catégories
 def name_category (liste):
     name_cat =[]
@@ -31,7 +29,6 @@ def name_category (liste):
         name = name.split("_")[0]
         name_cat.append (str(name))
     return name_cat
-
 
 def scrap_all_categories ():
     links = links_categories()
@@ -42,10 +39,7 @@ def scrap_all_categories ():
 
 if __name__ == "__main__":
     scrap_all_books = scrap_all_categories()
-    # print(scrap_all_books)
 
-    # test = links_categories()
-    # print(test)
    
 
     

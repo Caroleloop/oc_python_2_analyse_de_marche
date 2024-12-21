@@ -18,7 +18,6 @@ def nb_page(url_cat):
         i += 1
     return next
 
-
 #lien vers les livres d'une catégorie
 def category_books_link(url_cat):
     nb_next = nb_page(url_cat)
@@ -49,7 +48,7 @@ def category_books_link(url_cat):
                     liens_livres.append(link_ok)
     return liens_livres
 
- # # ouverture en écriture du fichier
+# ouverture en écriture du fichier
 def scrap_category(nom_category, url_categoy):
     books_links = category_books_link(url_categoy)
     category_books_dicts = []
@@ -74,7 +73,7 @@ def scrap_category(nom_category, url_categoy):
 if __name__ == "__main__":
     nom = "Mystery"
     url = "https://books.toscrape.com/catalogue/category/books/mystery_3/index.html"
-    scrap_category(nom,url)
+    category_books_link (url)
 
 
 
