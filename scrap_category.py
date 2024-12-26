@@ -3,6 +3,12 @@ from bs4 import BeautifulSoup
 from scrap_book import scrap_one_book
 import csv
 import os
+import re
+
+# Fonction pour nettoyer les noms de fichiers
+def sanitize_filename(filename):
+    return re.sub(r'[<>:"/\\|?*]', ',', filename)
+
 
 #nombre de pages de la catégorie choisi
 def nb_page(url_cat):
@@ -81,7 +87,8 @@ def scrap_category(nom_category, url_categoy):
         url_modifie = url.replace("../../", "")
         url_img = "https://books.toscrape.com/"+url_modifie
         image_name = title_book[t]
-        output_path = os.path.join(file_img, image_name)
+        # output_path = os.path.join(file_img, image_name)
+        output_path = os.path.join(file_img,sanitize_filename(image_name))
         response = requests.get(url_img, stream=True)
         if response.status_code == 200:  # Vérifier si la requête a réussi
             with open(output_path, "wb") as file:
