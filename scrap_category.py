@@ -4,11 +4,11 @@ from scrap_book import scrap_one_book
 import csv
 import os
 import re
+import wget
 
 # Fonction pour nettoyer les noms de fichiers
 def sanitize_filename(filename):
-    return re.sub(r'[<>:"/\\|?*]', ',', filename)
-
+    return re.sub(r'[<>:"/\\|?*]', '_', filename)
 
 #nombre de pages de la catégorie choisi
 def nb_page(url_cat):
@@ -29,8 +29,12 @@ def nb_page(url_cat):
 def category_books_link(url_cat):
     nb_next = nb_page(url_cat)
     liens_livres = []
-    if nb_next == 0:
-        url = url_cat
+    for i in range (nb_next+1): # +1 pour inclure la dernière page
+        if i == 0:
+            url = url_cat
+        else:
+            url_categorie = url_cat.replace("index.html","page-")
+            url = url_categorie+str(i+1)+".html"
         reponse = requests.get(url)  
         if reponse.ok:            
             soup = BeautifulSoup(reponse.text, "html.parser") 
@@ -40,29 +44,14 @@ def category_books_link(url_cat):
                 link = livre.find("a")["href"]
                 link_ok = BeautifulSoup(link, "html.parser").text.strip('../../../')
                 liens_livres.append(link_ok)
-    else: 
-        url_categorie = url_cat.replace("index.html","page-")
-        for i in range (nb_next) : 
-            url = url_categorie+str(i+1)+".html"
-            reponse = requests.get(url)  
-            if reponse.ok:            
-                soup = BeautifulSoup(reponse.text, "html.parser") 
-                # récupérer url d'une page d'une catégorie
-                livres = soup.find_all("h3")
-                for livre in livres :
-                    link = livre.find("a")["href"]
-                    link_ok = BeautifulSoup(link, "html.parser").text.strip('../../../')
-                    liens_livres.append(link_ok)
     return liens_livres
 
-# ouverture en écriture du fichier
-def scrap_category(nom_category, url_categoy):
-    books_links = category_books_link(url_categoy)
-    category_books_dicts = []
-
-    #ceation des dossiers
-    # Chemin principal
-    file = os.path.join("C:\\Formation\\Projet_02\\repo\\output")
+def creation_of_files(nom_category):
+    # creation des dossiers
+    # répertoire de travail actuel
+    cwd = os.getcwd()
+    # dossier output
+    file = os.path.join(cwd, "output")
     os.makedirs(file, exist_ok=True)
     # Sous-répertoire pour la catégorie
     file_category = os.path.join(file, nom_category)
@@ -72,49 +61,53 @@ def scrap_category(nom_category, url_categoy):
     # Sous-répertoire pour les images
     file_img = os.path.join(file_category, "img")
     os.makedirs(file_img, exist_ok=True)
+    return file_save,file_img
     
-    #récuperation des données
+def data_recording(url_categoy,file_save):
+    category_books_dicts = data_recovery(url_categoy)
+    # enregistrement des données
+    with open(file_save, 'w', newline='',encoding="utf-8") as fichier:
+        # Get the field names from the keys of the first dictionary
+        fieldnames = category_books_dicts[0].keys()
+        # Create a writer object
+        writer = csv.DictWriter(fichier,delimiter=";", fieldnames=fieldnames)
+        # Write the header row
+        writer.writeheader()
+        # Write the rows of data
+        writer.writerows(category_books_dicts)
+
+def data_recovery(url_categoy):
+    books_links = category_books_link(url_categoy)
+    category_books_dicts = []
+    # récuperation des données
     for book_link in books_links:
         book_url = "https://books.toscrape.com/catalogue/" + book_link
         book_dict = scrap_one_book(book_url)
         category_books_dicts.append(book_dict)
+    return category_books_dicts
 
-    #enregister des images
+def download_image (url_categoy,file_img):
+    category_books_dicts = data_recovery(url_categoy)
     urls_img = [d["image_url"] for d in category_books_dicts]
     title_book = [d["title"] for d in category_books_dicts]
     t = 0
     for url in urls_img: 
-        url_modifie = url.replace("../../", "")
-        url_img = "https://books.toscrape.com/"+url_modifie
         image_name = title_book[t]
-        # output_path = os.path.join(file_img, image_name)
-        output_path = os.path.join(file_img,sanitize_filename(image_name))
-        response = requests.get(url_img, stream=True)
+        output_path = os.path.join(file_img,sanitize_filename(image_name)+".jpg")
+        response = requests.get(url, stream=True)
         if response.status_code == 200:  # Vérifier si la requête a réussi
-            with open(output_path, "wb") as file:
-                for chunk in response.iter_content(1024):  # Télécharger par morceaux
-                    file.write(chunk)
+            wget.download(url, out = output_path)
         t = t+1
 
-    #enregistrement des données
-    with open(file_save, 'w', newline='',encoding="utf-8") as fichier:
-        # Get the field names from the keys of the first dictionary
-        fieldnames = category_books_dicts[0].keys()
-        
-        # Create a writer object
-        writer = csv.DictWriter(fichier,delimiter=";", fieldnames=fieldnames)
-        
-        # Write the header row
-        writer.writeheader()
-        
-        # Write the rows of data
-        writer.writerows(category_books_dicts)
-
+def scrap_category(nom_category, url_categoy):
+    file = creation_of_files(nom_category)
+    data_recording(url_categoy,file[0])
+    download_image(url_categoy,file[1])
 
 
 if __name__ == "__main__":
-    nom = "Mystery"
-    url = "https://books.toscrape.com/catalogue/category/books/mystery_3/index.html"
+    nom = "travel_2"
+    url = "https://books.toscrape.com/catalogue/category/books/travel_2/index.html"
     scrap_category (nom,url)
 
 
