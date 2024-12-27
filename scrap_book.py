@@ -5,8 +5,8 @@ from bs4 import BeautifulSoup
 #recuperation des informations du livre
 def scrap_one_book(url):
     reponse = requests.get(url)
-    if reponse.ok:
-        soup = BeautifulSoup(reponse.text, "html.parser")
+    if reponse.status_code == 200:
+        soup = BeautifulSoup(reponse.content, 'lxml')
         product_page_url = url
         universal_product_code = soup.find('table', class_ ='table table-striped' ).find(string="UPC").find_parent('tr').find('td').text.strip()
         title = soup.find('li',class_ ='active' ).text
