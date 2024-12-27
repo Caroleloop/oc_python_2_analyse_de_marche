@@ -1,2 +1,7 @@
-env
+#ignorer fichier csv :
 *.csv
+
+#ignorer dossier : 
+env
+output
+
