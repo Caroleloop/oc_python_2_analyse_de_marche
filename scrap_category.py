@@ -8,7 +8,14 @@ import wget
 
 # Fonction pour nettoyer les noms de fichiers
 def sanitize_filename(filename):
-    return re.sub(r'[<>:"/\\|?*]', '_', filename)
+    name = re.sub(r'[<>:"/\\|?*]', '_', filename)
+    temp = ""
+    for carac in name :
+        if carac == ' ' :
+            carac = '_'
+        temp = temp + carac
+    name = temp
+    return name
 
 #nombre de pages de la catégorie choisi
 def nb_page(url_cat):
@@ -106,8 +113,8 @@ def scrap_category(nom_category, url_categoy):
 
 
 if __name__ == "__main__":
-    nom = "travel_2"
-    url = "https://books.toscrape.com/catalogue/category/books/travel_2/index.html"
+    nom = input ("Entrer le nom de la catégorie à scraper : ")
+    url = input("Entrer le lien de la catégorie à scraper : ")
     scrap_category (nom,url)
 
 

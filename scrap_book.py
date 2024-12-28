@@ -37,6 +37,6 @@ def scrap_one_book(url):
     return book_info
 
 if __name__ == "__main__":
-    url = "https://books.toscrape.com/catalogue/set-me-free_988/index.html"
+    url = input("Entrer le lien du livre à scraper : ")
     book = scrap_one_book(url)
     print(book)

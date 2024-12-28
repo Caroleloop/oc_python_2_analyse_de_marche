@@ -78,7 +78,7 @@ Lancer le programme.
 
 Il vous sera demandé d'entrer le lien du livre à scraper.
 
-Dans le dossier "scraper_ un_livre", qui se trouve dans le dossier "output" vous aurez un dossier avec le titre du livre. 
+Dans le dossier "scrape_one_book", qui se trouve dans le dossier "output" vous aurez un dossier avec le titre du livre. 
 
 Dans ce dossier vous trouverez un fichier CSV ainsi qu'un dossier img avec l'image de la couverture du livre dedans.
 
