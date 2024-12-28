@@ -39,31 +39,31 @@ Dans un terminal faire les étapes suivantes :
 
 1.2 Création d'un environement virtuelle
 
-        + Placez vous dans le dossier courant
+    + Placez vous dans le dossier courant
 
-        + Créez votre environnement virtuel
+    + Créez votre environnement virtuel
 
-                    '''
+                    
                     python -m venv <your-virtual-env-name>
-                    '''
+                    
 
 1.3 Activer l'enviremenet virtuelle
 
-                    '''
+                    
                     <your-virtual-env-name>\Scripts\activate.bat (sous Windows)
-                    ''
+                    
 
-                ou 
+    ou 
 
-                    '''
+                    
                     source <your-virtual-env-name>/bin/activate (sous Mac/Linux)
-                    '''
+                    
 
 1.4 Installation des packages
 
-                    '''
+                    
                     pip install -r requirements.txt
-                    '''
+                    
 
 
 
@@ -71,39 +71,39 @@ Dans un terminal faire les étapes suivantes :
 
 1.Scraper un livre
 
-    Pour scraper un livre, vous devez utiliser le programme "scrap_book.py".
+ Pour scraper un livre, vous devez utiliser le programme "scrap_book.py".
 
-    Lancer le programme.
+ Lancer le programme.
 
-    Il vous sera demandé d'entrer le lien du livre à scraper.
+ Il vous sera demandé d'entrer le lien du livre à scraper.
 
-    Dans le dossier "scraper_ un_livre", qui se trouve dans le dossier "output" vous aurez un dossier avec le titre du livre. 
+ Dans le dossier "scraper_ un_livre", qui se trouve dans le dossier "output" vous aurez un dossier avec le titre du livre. 
 
-    Dans ce dossier vous trouverez un fichier CSV ainsi qu'un dossier img avec l'image de la couverture du livre dedans.
+ Dans ce dossier vous trouverez un fichier CSV ainsi qu'un dossier img avec l'image de la couverture du livre dedans.
 
 
 2.Scraper une catégorie
 
-    Pour scraper une catégorie, vous devez utiliser le programme "scrap_category.py".
+ Pour scraper une catégorie, vous devez utiliser le programme "scrap_category.py".
 
-    Lancer le programme.
+ Lancer le programme.
 
-    Il vous sera demandé d'entrer le nom de la catégorie à scraper, puis d'entrer le lien de la catégorie à scraper à scraper.
+ Il vous sera demandé d'entrer le nom de la catégorie à scraper, puis d'entrer le lien de la catégorie à scraper à scraper.
 
-    Dans le dossier "output", vous trouverez un dossier avec le nom de le catégorie scraper. 
+ Dans le dossier "output", vous trouverez un dossier avec le nom de le catégorie scraper. 
 
-    Dans ce dossier vous trouverez un fichier CSV ainsi qu'un dossier img avec les images des couvertures des livres dedans.
+ Dans ce dossier vous trouverez un fichier CSV ainsi qu'un dossier img avec les images des couvertures des livres dedans.
 
 
 3.Scraper tout le site
 
-    Pour scraper le site, vous devez utiliser le programme "scrap_all_categories.py".
+ Pour scraper le site, vous devez utiliser le programme "scrap_all_categories.py".
 
-    Lancer le programme.
+ Lancer le programme.
 
-    Dans le dossier "output", vous trouverez un dossier pour chaque catégorie. 
+ Dans le dossier "output", vous trouverez un dossier pour chaque catégorie. 
 
-    Dans ce dossier vous trouverez un fichier CSV ainsi qu'un dossier img avec les images des couvertures des livres dedans.
+ Dans ce dossier vous trouverez un fichier CSV ainsi qu'un dossier img avec les images des couvertures des livres dedans.
 
 
 
