@@ -19,7 +19,7 @@ Les programmes servent à scraper les livres. Le premier programme sert à scrap
     + Review rating
     + Image url
 
-Ces données sont enregistrées dans un fichier CSV et les image des couvertures sont aussi enregistrée dans un dossier "img".
+Ces données sont enregistrées dans un fichier CSV et les images des couvertures sont aussi enregistrées dans un dossier "img".
 
 
 ### Pré-requis
@@ -29,63 +29,98 @@ Il faut utiliser la dernière version de Python que vous pourrez retrouver sur l
 
 ### Installation
 
-Dans un terminal faire les étapes suivantes.
+Dans un terminal faire les étapes suivantes :
 
 1.1 Cloner le dépôt git dans le dossier de travail
+
        + Aller sur la page : https://github.com/Caroleloop/oc_python_2_analyse_de_marche
        + Pour le reste de la procédure, veuillez vous référer à la documentation git: https://docs.github.com/fr/repositories/creating-and-managing-repositories/cloning-a-repository
 
+
 1.2 Création d'un environement virtuelle
+
         + Placez vous dans le dossier courant
-        + Créez votre environnement virtuel  
+
+        + Créez votre environnement virtuel
+
                     '''
                     python -m venv <your-virtual-env-name>
                     '''
+
 1.3 Activer l'enviremenet virtuelle
+
                     '''
                     <your-virtual-env-name>\Scripts\activate.bat (sous Windows)
                     ''
 
                 ou 
+
                     '''
                     source <your-virtual-env-name>/bin/activate (sous Mac/Linux)
                     '''
+
 1.4 Installation des packages
+
                     '''
                     pip install -r requirements.txt
                     '''
 
 
+
 ## Démarrage
 
 1.Scraper un livre
+
     Pour scraper un livre, vous devez utiliser le programme "scrap_book.py".
+
     Lancer le programme.
-    Il vous sera demander d'enter le lien du livre à scraper.
+
+    Il vous sera demandé d'entrer le lien du livre à scraper.
+
     Dans le dossier "scraper_ un_livre", qui se trouve dans le dossier "output" vous aurez un dossier avec le titre du livre. 
+
     Dans ce dossier vous trouverez un fichier CSV ainsi qu'un dossier img avec l'image de la couverture du livre dedans.
+
 
 2.Scraper une catégorie
-    Pour scraper un livre, vous devez utiliser le programme "scrap_category.py".
+
+    Pour scraper une catégorie, vous devez utiliser le programme "scrap_category.py".
+
     Lancer le programme.
-    Il vous sera demander d'entrer le nom de la catégorie à scraper, puis d'enter le lien de la catégorie à scraper à scraper.
+
+    Il vous sera demandé d'entrer le nom de la catégorie à scraper, puis d'entrer le lien de la catégorie à scraper à scraper.
+
     Dans le dossier "output", vous trouverez un dossier avec le nom de le catégorie scraper. 
-    Dans ce dossier vous trouverez un fichier CSV ainsi qu'un dossier img avec l'image de la couverture du livre dedans.
+
+    Dans ce dossier vous trouverez un fichier CSV ainsi qu'un dossier img avec les images des couvertures des livres dedans.
+
 
 3.Scraper tout le site
-    Pour scraper un livre, vous devez utiliser le programme "scrap_all_categories.py".
+
+    Pour scraper le site, vous devez utiliser le programme "scrap_all_categories.py".
+
     Lancer le programme.
+
     Dans le dossier "output", vous trouverez un dossier pour chaque catégorie. 
-    Dans ce dossier vous trouverez un fichier CSV ainsi qu'un dossier img avec l'image de la couverture du livre dedans.
+
+    Dans ce dossier vous trouverez un fichier CSV ainsi qu'un dossier img avec les images des couvertures des livres dedans.
+
+
 
 ## Utilisation des données
 
-Les fichiers CSV peuvent être ouvert dans excel.
-Pour cela, ouvrer excel puis aller dans l'onglet "Données". 
-Ouverez les fichiers avec "A partir d'un fichier texte/CSV"
-Une fenêtre s'ouvrira, dans "Détection du type de données" mettre "Selon le jeu de données complet" pour avoir toutes les données.
-Puis appyller sur "Charger".
+Les fichiers CSV peuvent être ouvert dans Excel.
+
+Pour cela, ouvrez Excel puis aller dans l'onglet "Données". 
+
+Ouvrez les fichiers avec "A partir d'un fichier texte/CSV".
+
+Une fenêtre s'ouvrira, dans "Détection du type de données" mettez "Selon le jeu de données complet" pour avoir toutes les données.
+
+Puis appuyez sur "Charger".
+
 Ainsi vous pourrez utiliser les données.
+
 
 ## Auteurs
 
