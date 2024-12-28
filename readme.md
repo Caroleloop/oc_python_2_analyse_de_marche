@@ -32,44 +32,60 @@ Il faut utiliser la dernière version de Python que vous pourrez retrouver sur l
 Dans un terminal faire les étapes suivantes.
 
 1.1 Cloner le dépôt git dans le dossier de travail
-       a. Aller sur la page : https://github.com/Caroleloop/oc_python_2_analyse_de_marche
-       b. Pour le reste de la procédure, veuillez vous référer à la documentation git: https://docs.github.com/fr/repositories/creating-and-managing-repositories/cloning-a-repository
+       + Aller sur la page : https://github.com/Caroleloop/oc_python_2_analyse_de_marche
+       + Pour le reste de la procédure, veuillez vous référer à la documentation git: https://docs.github.com/fr/repositories/creating-and-managing-repositories/cloning-a-repository
 
 1.2 Création d'un environement virtuelle
-        a. Placez vous dans le dossier courant
-        b. Créez votre environnement virtuel  
+        + Placez vous dans le dossier courant
+        + Créez votre environnement virtuel  
+                    '''
                     python -m venv <your-virtual-env-name>
+                    '''
 1.3 Activer l'enviremenet virtuelle
+                    '''
                     <your-virtual-env-name>\Scripts\activate.bat (sous Windows)
-                ou  source <your-virtual-env-name>/bin/activate (sous Mac/Linux)
+                    ''
+
+                ou 
+                    '''
+                    source <your-virtual-env-name>/bin/activate (sous Mac/Linux)
+                    '''
 1.4 Installation des packages
+                    '''
                     pip install -r requirements.txt
+                    '''
 
 
 ## Démarrage
 
-Dites comment faire pour lancer votre projet
+1.Scraper un livre
+    Pour scraper un livre, vous devez utiliser le programme "scrap_book.py".
+    Lancer le programme.
+    Il vous sera demander d'enter le lien du livre à scraper.
+    Dans le dossier "scraper_ un_livre", qui se trouve dans le dossier "output" vous aurez un dossier avec le titre du livre. 
+    Dans ce dossier vous trouverez un fichier CSV ainsi qu'un dossier img avec l'image de la couverture du livre dedans.
 
+2.Scraper une catégorie
+    Pour scraper un livre, vous devez utiliser le programme "scrap_category.py".
+    Lancer le programme.
+    Il vous sera demander d'entrer le nom de la catégorie à scraper, puis d'enter le lien de la catégorie à scraper à scraper.
+    Dans le dossier "output", vous trouverez un dossier avec le nom de le catégorie scraper. 
+    Dans ce dossier vous trouverez un fichier CSV ainsi qu'un dossier img avec l'image de la couverture du livre dedans.
 
-## Fabriqué avec
+3.Scraper tout le site
+    Pour scraper un livre, vous devez utiliser le programme "scrap_all_categories.py".
+    Lancer le programme.
+    Dans le dossier "output", vous trouverez un dossier pour chaque catégorie. 
+    Dans ce dossier vous trouverez un fichier CSV ainsi qu'un dossier img avec l'image de la couverture du livre dedans.
 
-Entrez les programmes/logiciels/ressources que vous avez utilisé pour développer votre projet
+## Utilisation des données
 
-_exemples :_
-* [Materialize.css](http://materializecss.com) - Framework CSS (front-end)
-* [Atom](https://atom.io/) - Editeur de textes
-
-## Contributing
-
-Si vous souhaitez contribuer, lisez le fichier [CONTRIBUTING.md](https://example.org) pour savoir comment le faire.
-
-## Versions
-
-**Dernière version stable :** 5.0
-**Dernière version :** 5.1
-Liste des versions : [Cliquer pour afficher](https://github.com/your/project-name/tags)
-_(pour le lien mettez simplement l'URL de votre projets suivi de ``/tags``)_
-
+Les fichiers CSV peuvent être ouvert dans excel.
+Pour cela, ouvrer excel puis aller dans l'onglet "Données". 
+Ouverez les fichiers avec "A partir d'un fichier texte/CSV"
+Une fenêtre s'ouvrira, dans "Détection du type de données" mettre "Selon le jeu de données complet" pour avoir toutes les données.
+Puis appyller sur "Charger".
+Ainsi vous pourrez utiliser les données.
 
 ## Auteurs
 
