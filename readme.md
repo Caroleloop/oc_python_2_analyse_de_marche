@@ -37,6 +37,7 @@ Dans un terminal faire les étapes suivantes :
 + Pour le reste de la procédure, veuillez vous référer à la documentation git: https://docs.github.com/fr/repositories/creating-and-managing-repositories/cloning-a-repository
 
 
+
 1.2 Création d'un environement virtuel
 
 + Placez vous dans le dossier courant
@@ -44,32 +45,32 @@ Dans un terminal faire les étapes suivantes :
 + Créez votre environnement virtuel
 
                     
-                    python -m venv <your-virtual-env-name>
+        python -m venv <your-virtual-env-name>
                     
+
 
 1.3 Activer l'environnement virtuel
 
                     
-                    <your-virtual-env-name>\Scripts\activate.bat (sous Windows)
+        <your-virtual-env-name>\Scripts\activate.bat (sous Windows)
                     
-
 ou 
+                    
+        source <your-virtual-env-name>/bin/activate (sous Mac/Linux)
+                    
 
-                    
-                    source <your-virtual-env-name>/bin/activate (sous Mac/Linux)
-                    
 
 1.4 Installation des packages
 
                     
-                    pip install -r requirements.txt
+        pip install -r requirements.txt
                     
 
 
 
 ## Démarrage
 
-### 1.Scraper un livre
+### 1. Scraper un livre
 
 Pour scraper un livre, vous devez utiliser le programme "scrap_book.py".
 
@@ -83,7 +84,7 @@ Dans ce dossier vous trouverez un fichier CSV ainsi qu'un dossier img avec l'ima
 
 
 
-### 2.Scraper une catégorie
+### 2. Scraper une catégorie
 
 Pour scraper une catégorie, vous devez utiliser le programme "scrap_category.py".
 
@@ -97,7 +98,7 @@ Dans ce dossier vous trouverez un fichier CSV ainsi qu'un dossier img avec les i
 
 
 
-### 3.Scraper tout le site
+### 3. Scraper tout le site
 
 Pour scraper le site, vous devez utiliser le programme "scrap_all_categories.py".
 
