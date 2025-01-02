@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 from scrap_category import scrap_category
 
 
-#liste des liens des catégories
+# liste des liens des catégories
 def links_categories ():
     links_cat = []
     links_categories = []
@@ -21,7 +21,7 @@ def links_categories ():
     del links_categories[0:1]
     return links_categories
 
-#nom des catégories
+# nom des catégories
 def name_category (liste):
     name_cat =[]
     for name in liste :
@@ -30,6 +30,7 @@ def name_category (liste):
         name_cat.append (str(name))
     return name_cat
 
+# scraper tout le site
 def scrap_all_categories ():
     links = links_categories()
     names = name_category(links)

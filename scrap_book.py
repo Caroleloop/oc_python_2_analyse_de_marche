@@ -1,8 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
+import re
 
-
-#recuperation des informations du livre
+# recuperation des informations du livre
 def scrap_one_book(url):
     reponse = requests.get(url)
     if reponse.status_code == 200:
@@ -10,8 +10,10 @@ def scrap_one_book(url):
         product_page_url = url
         universal_product_code = soup.find('table', class_ ='table table-striped' ).find(string="UPC").find_parent('tr').find('td').text.strip()
         title = soup.find('li',class_ ='active' ).text
-        price_including_tax = soup.find('table', class_ ='table table-striped' ).find(string="Price (incl. tax)").find_parent('tr').find('td').text.replace("Â£","")
-        price_excluding_tax =soup.find('table', class_ ='table table-striped' ).find(string="Price (excl. tax)").find_parent('tr').find('td').text.replace("Â£","")
+        price_including_tax = soup.find('table', class_ ='table table-striped' ).find(string="Price (incl. tax)").find_parent('tr').find('td').text
+        price_including_tax = re.sub(r"[£Â£]", "", price_including_tax)
+        price_excluding_tax =soup.find('table', class_ ='table table-striped' ).find(string="Price (excl. tax)").find_parent('tr').find('td').text
+        price_excluding_tax = re.sub(r"[£Â£]", "", price_excluding_tax)
         number_available =  soup.find('table', class_ ='table table-striped' ).find(string="Availability").find_parent('tr').find('td').text.strip()
         category = soup.find('ul', class_ = 'breadcrumb' ).find('li', class_='active').find_previous('a').text.strip()
         review_rating = soup.find('p', class_ = 'star-rating').get("class")[1]

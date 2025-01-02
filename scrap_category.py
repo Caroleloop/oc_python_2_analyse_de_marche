@@ -17,7 +17,7 @@ def sanitize_filename(filename):
     name = temp
     return name
 
-#nombre de pages de la catégorie choisi
+# nombre de pages de la catégorie choisi
 def nb_page(url_cat):
     next = 0
     i=1
@@ -32,7 +32,7 @@ def nb_page(url_cat):
         i += 1
     return next
 
-#lien vers les livres d'une catégorie
+# lien vers les livres d'une catégorie
 def category_books_link(url_cat):
     nb_next = nb_page(url_cat)
     liens_livres = []
@@ -53,6 +53,7 @@ def category_books_link(url_cat):
                 liens_livres.append(link_ok)
     return liens_livres
 
+# creation des dossiers
 def creation_of_files(nom_category):
     # creation des dossiers
     # répertoire de travail actuel
@@ -69,7 +70,8 @@ def creation_of_files(nom_category):
     file_img = os.path.join(file_category, "img")
     os.makedirs(file_img, exist_ok=True)
     return file_save,file_img
-    
+
+# enragistrement des données     
 def data_recording(url_categoy,file_save):
     category_books_dicts = data_recovery(url_categoy)
     # enregistrement des données
@@ -83,6 +85,7 @@ def data_recording(url_categoy,file_save):
         # Write the rows of data
         writer.writerows(category_books_dicts)
 
+# récupération des liens de la catégorie
 def data_recovery(url_categoy):
     books_links = category_books_link(url_categoy)
     category_books_dicts = []
@@ -93,6 +96,7 @@ def data_recovery(url_categoy):
         category_books_dicts.append(book_dict)
     return category_books_dicts
 
+# télécharger les couvertures des livres
 def download_image (url_categoy,file_img):
     category_books_dicts = data_recovery(url_categoy)
     urls_img = [d["image_url"] for d in category_books_dicts]
@@ -106,6 +110,7 @@ def download_image (url_categoy,file_img):
             wget.download(url, out = output_path)
         t = t+1
 
+# scraper une catégorie
 def scrap_category(nom_category, url_categoy):
     file = creation_of_files(nom_category)
     data_recording(url_categoy,file[0])
