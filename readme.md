@@ -119,7 +119,7 @@ Ouvrez les fichiers avec "A partir d'un fichier texte/CSV".
 
 Une fenêtre s'ouvrira, dans "Détection du type de données" mettez "Selon le jeu de données complet" pour avoir toutes les données.
 
-Puis appuyez sur "Charger".
+Pour avoir la première ligne en nom de colonnes, appuiyer sur "transformer les données". Puis sur " Utiliser la première ligne comme en-têtes". Ensuite, sur "Fermer et charger".
 
 Ainsi vous pourrez utiliser les données.
 
