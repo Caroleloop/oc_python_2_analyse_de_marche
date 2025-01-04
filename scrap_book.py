@@ -15,6 +15,7 @@ def scrap_one_book(url):
         price_excluding_tax =soup.find('table', class_ ='table table-striped' ).find(string="Price (excl. tax)").find_parent('tr').find('td').text
         price_excluding_tax = re.sub(r"[£Â£]", "", price_excluding_tax)
         number_available =  soup.find('table', class_ ='table table-striped' ).find(string="Availability").find_parent('tr').find('td').text.strip()
+        number_available = int(number_available.split('(')[1].split()[0]) 
         category = soup.find('ul', class_ = 'breadcrumb' ).find('li', class_='active').find_previous('a').text.strip()
         review_rating = soup.find('p', class_ = 'star-rating').get("class")[1]
         image_url = soup.find('img').get('src').replace("../../", "https://books.toscrape.com/")
