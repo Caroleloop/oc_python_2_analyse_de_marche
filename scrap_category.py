@@ -75,7 +75,7 @@ def creation_of_files(nom_category):
 def data_recording(url_categoy,file_save):
     category_books_dicts = data_recovery(url_categoy)
     # enregistrement des données
-    with open(file_save, 'w', newline='',encoding="utf-8") as fichier:
+    with open(file_save, 'w', newline='',encoding="utf-8-sig") as fichier:
         # Get the field names from the keys of the first dictionary
         fieldnames = category_books_dicts[0].keys()
         # Create a writer object
