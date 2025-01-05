@@ -72,8 +72,8 @@ def creation_of_files(nom_category):
     return file_save,file_img
 
 # enragistrement des données     
-def data_recording(url_categoy,file_save):
-    category_books_dicts = data_recovery(url_categoy)
+def data_recording(file_save,category_books_dicts):
+    # category_books_dicts = category_books_dicts
     # enregistrement des données
     with open(file_save, 'w', newline='',encoding="utf-8-sig") as fichier:
         # Get the field names from the keys of the first dictionary
@@ -84,6 +84,7 @@ def data_recording(url_categoy,file_save):
         writer.writeheader()
         # Write the rows of data
         writer.writerows(category_books_dicts)
+    return category_books_dicts
 
 # récupération des liens de la catégorie
 def data_recovery(url_categoy):
@@ -97,24 +98,31 @@ def data_recovery(url_categoy):
     return category_books_dicts
 
 # télécharger les couvertures des livres
-def download_image (url_categoy,file_img):
-    category_books_dicts = data_recovery(url_categoy)
-    urls_img = [d["image_url"] for d in category_books_dicts]
-    title_book = [d["title"] for d in category_books_dicts]
-    t = 0
-    for url in urls_img: 
-        image_name = title_book[t]
-        output_path = os.path.join(file_img,sanitize_filename(image_name)+".jpg")
-        response = requests.get(url, stream=True)
-        if response.status_code == 200:  # Vérifier si la requête a réussi
-            wget.download(url, out = output_path)
-        t = t+1
+def download_image(url_category, file_img):
+    # Récupérer les données des livres
+    category_books_dicts = data_recovery(url_category)
+    # Parcourir chaque livre et traiter son image
+    for book in category_books_dicts:  # Parcourt les dictionnaires dans la liste
+        image_name = sanitize_filename(book["title"])  # Nettoyer le titre pour un nom de fichier valide
+        output_path = os.path.join(file_img, f"{image_name}.jpg")  # Créer le chemin complet
+        book["link_image_file"] = output_path  # Ajouter le chemin au dictionnaire
+        # Télécharger l'image
+        image_url = book["image_url"]
+        try:
+            response = requests.get(image_url, stream=True)
+            if response.status_code == 200:  # Si la requête a réussi
+                wget.download(image_url, out=output_path)
+            else:
+                print(f"Échec du téléchargement : {image_url} (Code {response.status_code})")
+        except Exception as e:
+            print(f"Erreur lors du téléchargement de {image_url}: {e}")    
+    return category_books_dicts
 
 # scraper une catégorie
 def scrap_category(nom_category, url_categoy):
     file = creation_of_files(nom_category)
-    data_recording(url_categoy,file[0])
-    download_image(url_categoy,file[1])
+    category_books_dicts = download_image(url_categoy,file[1])
+    data_recording(file[0],category_books_dicts)
 
 
 if __name__ == "__main__":
